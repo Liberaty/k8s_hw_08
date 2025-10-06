@@ -73,10 +73,56 @@
 ### Задание 2. Создать приложение с вашей веб-страницей, доступной по HTTPS 
 
 1. Создать Deployment приложения, состоящего из Nginx.
+#
+***Ответ***
+
+Создаём манифет [*deployment-https.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/deployment-https.yaml)
+
 2. Создать собственную веб-страницу и подключить её как ConfigMap к приложению.
+#
+***Ответ***
+
+Используем [*nginx-html.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/nginx-html.yaml), которую создал для прошлого задания.
+
+Подключаем ее к Deployment через volume
+
+![2.2.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/2.2.png?raw=true)
+
 3. Выпустить самоподписной сертификат SSL. Создать Secret для использования сертификата.
+#
+***Ответ***
+
+Генерируем самоподписной сертификат SSL командой ```openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls.key -out tls.crt -subj "/CN=my-nginx/O=netology"``` и создаем Secret для его использования
+
+Перекодируем оба файла в base64 и добавляем их в ***secret-ssl.yaml***
+
+![2.3.1.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/2.3.1.png?raw=true)
+
+Создаём манифест [*nginx-conf.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/nginx-conf.yaml)
+
+![2.3.2.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/2.3.2.png?raw=true)
+
+Только потом запускаем ***deployment-https.yaml*** и проверяем статус
+
+![2.3.3.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/2.3.3.png?raw=true)
+
 4. Создать Ingress и необходимый Service, подключить к нему SSL в вид. Продемонстировать доступ к приложению по HTTPS. 
-4. Предоставить манифесты, а также скриншоты или вывод необходимых команд.
+#
+***Ответ***
+
+Создаём манифесты [*service-https.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/service-https.yaml) и [*ingress.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/ingress.yaml), запускаем и проверяем статус
+
+![2.4.1.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/2.4.1.png?raw=true)
+
+Теперь проверяем с помощью curl, что страница доступна через https
+
+![2.4.2.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/2.4.2.png?raw=true)
+
+5. Предоставить манифесты, а также скриншоты или вывод необходимых команд.
+#
+***Ответ***
+
+Все команды предоставлены на скриншоте выше.
 
 ------
 
