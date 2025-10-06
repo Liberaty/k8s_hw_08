@@ -25,10 +25,48 @@
 ### Задание 1. Создать Deployment приложения и решить возникшую проблему с помощью ConfigMap. Добавить веб-страницу
 
 1. Создать Deployment приложения, состоящего из контейнеров nginx и multitool.
+#
+***Ответ***
+
+Создаем [*deployment.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/deployment.yaml) состоящего из двух контейнеров.
+
 2. Решить возникшую проблему с помощью ConfigMap.
+#
+***Ответ***
+
+Проблема возникает потому, что оба контейнера по умолчанию пытаются слушать порт 80.
+
+Решаем её созданием [*multitool-config.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/multitool-config.yaml), где добавим ключ:значение ```HTTP_PORT: "8080"``` и передадим ее через переменную ```env``` в deployment и заменим в контейнере multitool порт c 80 на 8080.
+
 3. Продемонстрировать, что pod стартовал и оба конейнера работают.
+#
+***Ответ***
+
+Сначала запускаем ConfigMap'с, так как pod выпадет в ошибку, если не будет этих переменных.
+
+![1.3.1.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/1.3.1.png?raw=true)
+
+Далее запускаем deployment и проверяем его статус
+
+![1.3.2.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/1.3.2.png?raw=true)
+
 4. Сделать простую веб-страницу и подключить её к Nginx с помощью ConfigMap. Подключить Service и показать вывод curl или в браузере.
+#
+***Ответ***
+
+Заранее создал страницу через ConfigMap [*nginx-html.yaml*](https://github.com/Liberaty/k8s_hw_08/blob/main/nginx-html.yaml)
+
+подключаем ее через volume в Deployment и добавляем ее по пути mountPath: */usr/share/nginx/html* в контейнер nginx
+
+Подключаем [service.yaml](https://github.com/Liberaty/k8s_hw_08/blob/main/service.yaml) и проверяем с помощью curl
+
+![1.4.png](https://github.com/Liberaty/k8s_hw_08/blob/main/img/1.4.png?raw=true)
+
 5. Предоставить манифесты, а также скриншоты или вывод необходимых команд.
+#
+***Ответ***
+
+Все команды предоставлены на скриншоте выше.
 
 ------
 
